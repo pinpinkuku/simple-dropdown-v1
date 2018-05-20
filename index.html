@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="lib/jquery-1.11.2.js"></script>
+    <script src="lib/mock.js"></script>
+    <script src="src/javascript/dropdown.js"></script>
+    <script src="mock/mockdata.js"></script>
+    <link rel="stylesheet" type="text/css" href="src/css/dropdown.css">
+    <style>
+        body {
+            margin: 20px;
+        }
+
+        div {
+            margin: 40px;
+        }
+
+        button {
+            margin-left: 80px;
+        }
+
+        ;
+    </style>
+</head>
+
+<body>
+
+    <!-- 懒加载数据 -->
+    <div id="select2">
+
+    </div>
+    <button onclick="getAsycData()">异步获取数据</button>
+
+
+    <script>
+        var select2;
+        $(document).ready(function () {
+            var list = [{
+                    name: 'C#',
+                    value: 1
+                },
+                {
+                    name: 'java',
+                    value: 2
+                }, {
+                    name: 'ruby',
+                    value: 3
+                }, {
+                    name: 'python',
+                    value: 4
+                }, {
+                    name: 'html',
+                    value: 5
+                }, {
+                    name: 'javascript',
+                    value: 6
+                }, {
+                    name: 'nodejs',
+                    value: 7
+                }, {
+                    name: 'php',
+                    value: 8
+                },
+            ];
+
+            // 初始化下拉框
+            select2 = new dropdown('#select2', {
+                color: 'red'
+            }, list, 1);
+        });
+
+        // ajax 获取数据，并舒心到下拉选项中
+        var getAsycData = function () {
+            $.ajax({
+                url: 'http://localhost:3000/data',
+                type: 'get',
+                dataType: 'json'
+            }).done(function (data, status, xhr) {
+                var results = data.data;
+                select2.setData(results);
+            });
+        };
+    </script>
+</body>
+
+</html>
